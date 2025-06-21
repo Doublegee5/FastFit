@@ -1,5 +1,8 @@
 import express from "express";
 import OpenAI from "openai";
+import dotenv from "dotenv";
+
+dotenv.config(); // load environment variables
 
 const router = express.Router();
 
@@ -14,7 +17,7 @@ router.post("/workout", async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o", // Or "gpt-3.5-turbo" if you prefer
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
