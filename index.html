@@ -51,7 +51,7 @@
   <section class="py-16 text-center bg-white">
     <h2 class="text-2xl font-semibold mb-4">Join the FastFit Movement</h2>
     <p class="mb-6">Be among the first to earn fitness rewards and track emotional growth.</p>
-    <input type="email" placeholder="Your email" class="border px-4 py-2 rounded shadow-md" />
+    <input type="email" placeholder="Your email" required class="border px-4 py-2 rounded shadow-md" />
     <button class="bg-green-600 text-white px-6 py-2 rounded ml-2">Join</button>
   </section>
 
@@ -63,36 +63,40 @@
 
   <!-- JS -->
   <script>
-  const buttons = document.querySelectorAll('.mood-btn');
-  const result = document.getElementById('moodResult');
+    const buttons = document.querySelectorAll('.mood-btn');
+    const result = document.getElementById('moodResult');
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mood = btn.value;
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mood = btn.value;
 
-      // UI Feedback while waiting
-      result.textContent = "🤖 Generating your workout...";
+        // UI: disable all buttons while loading
+        buttons.forEach(b => b.disabled = true);
+        result.textContent = "🤖 Generating your workout...";
 
-      // Highlight selected mood
-      buttons.forEach(b => b.classList.remove("bg-green-200"));
-      btn.classList.add("bg-green-200");
+        // Highlight selected mood
+        buttons.forEach(b => b.classList.remove("bg-green-200"));
+        btn.classList.add("bg-green-200");
 
-      // Fetch workout from backend
-      fetch("http://localhost:5000/api/ai/workout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mood }),
-      })
+        // Fetch workout from backend
+        fetch("/api/ai/workout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mood }),
+        })
         .then(res => res.json())
         .then(data => {
-          result.textContent = data.workout;
+          result.textContent = data.workout || "No workout returned.";
         })
         .catch(err => {
           console.error(err);
           result.textContent = "❌ Could not fetch workout. Try again later.";
+        })
+        .finally(() => {
+          buttons.forEach(b => b.disabled = false);
         });
+      });
     });
-  });
-</script>
+  </script>
 </body>
 </html>
