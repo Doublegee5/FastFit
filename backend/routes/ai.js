@@ -2,7 +2,7 @@ import express from "express";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 
-dotenv.config(); // load environment variables
+dotenv.config(); // Load environment variables
 
 const router = express.Router();
 
@@ -13,7 +13,9 @@ const openai = new OpenAI({
 router.post("/workout", async (req, res) => {
   const { mood } = req.body;
 
-  if (!mood) return res.status(400).json({ error: "Mood is required" });
+  if (!mood) {
+    return res.status(400).json({ error: "Mood is required" });
+  }
 
   try {
     const completion = await openai.chat.completions.create({
@@ -33,7 +35,7 @@ router.post("/workout", async (req, res) => {
     const workout = completion.choices[0].message.content;
     res.json({ workout });
   } catch (err) {
-    console.error(err);
+    console.error("OpenAI error:", err);
     res.status(500).json({ error: "AI failed to respond" });
   }
 });
