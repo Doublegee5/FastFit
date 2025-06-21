@@ -66,20 +66,31 @@
   const buttons = document.querySelectorAll('.mood-btn');
   const result = document.getElementById('moodResult');
 
-  const aiSuggestions = {
-    energized: "🔥 Let's crush it! Try a 30-minute HIIT session or powerlifting.",
-    tired: "😴 You might need active recovery — try yoga or a light walk.",
-    stressed: "🧘 Breathe. Try deep stretching, mindfulness, or a light jog.",
-    motivated: "💥 Perfect time for a full-body strength workout or circuit training.",
-    sad: "❤️ Be kind to yourself. Try dancing, walking, or journaling with music.",
-  };
-
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const mood = btn.value;
-      result.textContent = aiSuggestions[mood] || "Let's get moving!";
+
+      // UI Feedback while waiting
+      result.textContent = "🤖 Generating your workout...";
+
+      // Highlight selected mood
       buttons.forEach(b => b.classList.remove("bg-green-200"));
       btn.classList.add("bg-green-200");
+
+      // Fetch workout from backend
+      fetch("http://localhost:5000/api/ai/workout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mood }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          result.textContent = data.workout;
+        })
+        .catch(err => {
+          console.error(err);
+          result.textContent = "❌ Could not fetch workout. Try again later.";
+        });
     });
   });
 </script>
