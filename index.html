@@ -78,8 +78,8 @@
         buttons.forEach(b => b.classList.remove("bg-green-200"));
         btn.classList.add("bg-green-200");
 
-        // Fetch workout from backend
-        fetch("/api/ai/workout", {
+        // Fetch workout from backend (updated URL)
+        fetch("https://fastfit-pmrw.onrender.com/api/ai/workout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mood }),
