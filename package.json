@@ -1,9 +1,9 @@
 {
-  "name": "fastfit-backend",
+  "name": "fastfit",
   "type": "module",
-  "main": "backend/server.js",
+  "main": "backend/server.js",       // ✅ main file is inside /backend
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node backend/server.js" // ✅ correct if root is /
   },
   "dependencies": {
     "cors": "^2.8.5",
