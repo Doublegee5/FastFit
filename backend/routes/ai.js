@@ -33,6 +33,7 @@ router.post("/workout", async (req, res) => {
     });
 
     const workout = completion.choices[0].message.content;
+    console.log("OpenAI returned:", workout); 
     res.json({ workout });
   } catch (err) {
     console.error("OpenAI error:", err);
