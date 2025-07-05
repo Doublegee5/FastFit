@@ -1,9 +1,9 @@
 {
   "name": "fastfit",
   "type": "module",
-  "main": "server.js",              ✅ FIXED
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js"       ✅ FIXED
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
