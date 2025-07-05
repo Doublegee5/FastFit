@@ -2,7 +2,7 @@ import express from "express";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const router = express.Router();
 
@@ -32,9 +32,17 @@ router.post("/workout", async (req, res) => {
       ],
     });
 
-    const workout = completion.choices[0].message.content;
-    console.log("OpenAI returned:", workout); 
+    const workout = completion?.choices?.[0]?.message?.content?.trim();
+
+    console.log("OpenAI returned:", workout);
+
+    // Handle empty AI response
+    if (!workout) {
+      return res.status(500).json({ error: "No workout generated from AI." });
+    }
+
     res.json({ workout });
+
   } catch (err) {
     console.error("OpenAI error:", err);
     res.status(500).json({ error: "AI failed to respond" });
