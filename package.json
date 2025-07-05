@@ -1,5 +1,5 @@
 {
-  "name": "fastfit-backend",
+  "name": "fastfit",
   "type": "module",
   "main": "server.js",              ✅ FIXED
   "scripts": {
